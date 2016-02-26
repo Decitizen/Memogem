@@ -41,7 +41,7 @@ Add Card: (left-mouse-click) opens new window where you can write a new card. Yo
 Study Set: (left-mouse-click) Takes you to the study window.
 
 ###How to study effectively:
-Choose topic according to your wishes from the drop-down menu under the “Choose topic”-text. Choose the suitable study mode from the top menu-bar (left-mouse-click). Press “Study Set”-button in order to begin the study round. New window opens up. The study session follows following procedure:
+Choose topic according to your wishes from the drop-down menu under the “Choose topic”-text. Choose the suitable study mode from the top menu-bar (left-mouse-click). Press “Study Now”-button (situated on the bottom of the screen) in order to begin study round. New "Study"-window opens up. The study session will go as follows:
 
 You will be shown the first flashcard’s front-side.
 When you have recalled the answer/pair to the front’s text, press ”Show Answer”.
