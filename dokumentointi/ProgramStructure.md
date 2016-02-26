@@ -1,6 +1,6 @@
 ##Memogem Program Structure
 
-###Memogem is structured following good design principles. Main higher abstractional responsibilities are separated into three packages: 
+MemoGem is structured following good design principles. Main higher abstractional responsibilities are separated into three packages: 
 
 1.	Core Application-package (memogem.coreapplication)
 
