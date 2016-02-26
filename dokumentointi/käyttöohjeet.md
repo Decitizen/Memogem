@@ -42,6 +42,7 @@ Choose topic according to your wishes from the drop-down menu under the “Choos
 
 You will be shown the first flashcard’s front-side.
 When you have recalled the answer/pair to the front’s text, press ”Show Answer”.
-Answer will be shown. When ready to move forward, press one of the three cards “Again” “Good” “Easy”. This will help Memogem’s learning engine to optimize the current round of cards for the future. After this the next card will be shown. ####Now study away!
+Answer will be shown. When ready to move forward, press one of the three cards “Again” “Good” “Easy”. This will help Memogem’s learning engine to optimize the current round of cards for the future. After this the next card will be shown. 
+####Now study away!
 
 In the end MemoGem will notify you when the round ends. Here you can also choose to study more or to go back to the main window.
