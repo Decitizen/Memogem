@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.7">
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\com\memogemflashcard\memogem\flashcard\Main.java">
+<error line="78" column="22" severity="error" message="&apos;*&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="78" column="23" severity="error" message="&apos;*&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="78" column="25" severity="error" message="&apos;/&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="78" column="26" severity="error" message="&apos;/&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="78" column="28" severity="error" message="&apos;*&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="78" column="29" severity="error" message="&apos;*&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="78" column="31" severity="error" message="&apos;/&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="78" column="32" severity="error" message="&apos;/&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="78" column="34" severity="error" message="&apos;*&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="78" column="35" severity="error" message="&apos;*&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="78" column="37" severity="error" message="&apos;*&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="78" column="38" severity="error" message="&apos;*&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\carddatabase\CardDAO.java">
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\carddatabase\CardStatsDAO.java">
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\carddatabase\Dao.java">
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\carddatabase\Database.java">
+<error line="1" severity="error" message="File length is 202 lines (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.sizes.FileLengthCheck"/>
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\carddatabase\InitDb.java">
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\carddatabase\SetDAO.java">
+<error line="63" column="14" severity="error" message="&apos;while&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\carddatabase\TagDAO.java">
+<error line="58" column="14" severity="error" message="&apos;while&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\coreapplication\Card.java">
+<error line="28" column="17" severity="error" message="&apos;,&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\coreapplication\CardConnection.java">
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\coreapplication\CardStats.java">
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\coreapplication\CardType.java">
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\coreapplication\LogicalConnection.java">
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\coreapplication\Set.java">
+<error line="115" severity="error" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="117" severity="error" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\coreapplication\Tag.java">
+<error line="37" severity="error" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\coreapplication\Timestamp.java">
+</file>
+<file name="C:\Users\Willburner\Documents\NetBeansProjects\Memogem.Flashcard\src\main\java\memogem\ui\UserInterface.java">
+</file>
+</checkstyle>
