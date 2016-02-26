@@ -1,0 +1,9 @@
+memogem\carddatabase\DatabaseTest.class
+memogem\coreapplication\SetTest.class
+memogem\carddatabase\InitDbTest.class
+memogem\coreapplication\CardEngineTest.class
+memogem\carddatabase\CardDAOTest.class
+memogem\coreapplication\CardStatsTest.class
+memogem\coreapplication\CardTest.class
+memogem\coreapplication\ConnectionTest.class
+memogem\coreapplication\TagTest.class
