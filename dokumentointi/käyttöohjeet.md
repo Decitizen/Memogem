@@ -40,8 +40,8 @@ Study Set: (left-mouse-click) Takes you to the study window.
 ###How to study effectively:
 Choose topic according to your wishes from the drop-down menu under the “Choose topic”-text. Choose the suitable study mode from the top menu-bar (left-mouse-click). Press “Study Set”-button in order to begin the study round. New window opens up. The study session follows following procedure:
 
-####You will be shown the first flashcard’s front-side.
-####When you have recalled the answer/pair to the front’s text, press ”Show Answer”.
-####Answer will be shown. When ready to move forward, press one of the three cards “Again” “Good” “Easy”. This will help Memogem’s learning engine to optimize the current round of cards for the future. After this the next card will be shown. Now study away!
+You will be shown the first flashcard’s front-side.
+When you have recalled the answer/pair to the front’s text, press ”Show Answer”.
+Answer will be shown. When ready to move forward, press one of the three cards “Again” “Good” “Easy”. This will help Memogem’s learning engine to optimize the current round of cards for the future. After this the next card will be shown. ####Now study away!
 
 In the end MemoGem will notify you when the round ends. Here you can also choose to study more or to go back to the main window.
