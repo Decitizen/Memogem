@@ -9,15 +9,13 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 
-
 /** 
 *This is the main class which holds much of the information that is essential to the way
 *that the program works. There is a lot of information included into the objects that are
 *created out of the Card-class.
 */
-
 public class Card {
-    private String id; //individual unique id
+    private String id; //individual unique id in UUID format
     private String front; //front-text-field of the flashcard
     private String back;  //backside-text-field of the flashcard
     private CardType type; //type of card: answerable question vs flashcard

@@ -6,16 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.util.converter.LocalDateTimeStringConverter;
 
-
 /**
 *Set holds all the cards that are included in different study-topics saved by the user,
 *and it is above the Card-class in the final hierarchy of the program-structure.  
  */
 public class Set {
-    private String name;
-    private String id;
-    private LocalDateTime lastTimeStudied;
-    private List<Card> cards;
+    private String name; //name of the set
+    private String id; //id in UUID format
+    private LocalDateTime lastTimeStudied; //last time any of the set's cards were studied
+    private List<Card> cards; //list of cards belonging to the set
 
     public Set() {
         this("");

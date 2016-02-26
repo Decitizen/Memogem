@@ -13,20 +13,28 @@ import java.util.List;
  *SQL-database.
  */
 public class CardDAO implements Dao<Card> {
-    private Connection dbConnection;
-    private Statement statement;
-    private String dbAddress;
+    private Connection dbConnection; //Connection to SQL database
+    private Statement statement; //Used to make queries to the SQL database
+    private String dbAddress; //Address of the SQL database
     
     public CardDAO(String dbAddress) throws SQLException {
         connect();
         this.dbAddress = dbAddress;
     }
-
+    /**
+     * Connects to the SQL-database.
+     * @throws SQLException 
+     */
     public void connect() throws SQLException {
         this.dbConnection = DriverManager.getConnection("jcdb:sqlite:" + dbAddress + ".db");
         statement = dbConnection.createStatement();
     }
     
+    /**
+     * Responsible for deleting card from the SQL-database.
+     * @param card
+     * @throws SQLException 
+     */
     @Override
     public void delete(Card card) throws SQLException {
         String id = card.getId();
@@ -34,7 +42,12 @@ public class CardDAO implements Dao<Card> {
         statement.executeQuery("DELETE FROM Card WHERE id = '" + id + "';");
         closeConnection();
     }
-
+    
+    /**
+     * Responsible for adding card to the SQL-database.
+     * @param card
+     * @throws SQLException 
+     */
     @Override
     public void add(Card card) throws SQLException {
         
@@ -48,6 +61,11 @@ public class CardDAO implements Dao<Card> {
         closeConnection();
     }
 
+    /**
+     * Update function not supported.
+     * @param card
+     * @throws SQLException 
+     */
     @Override
     public void update(Card card) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -65,13 +83,18 @@ public class CardDAO implements Dao<Card> {
             System.out.println(se.getMessage());
         }
     }
-
-    void deleteCardsBySetId(String name) {
+    
+    /**
+     * getAll is not supported.
+     * @return
+     * @throws SQLException 
+     */
+    @Override
+    public List<Card> getAll() throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public List<Card> getAll() throws SQLException {
+    void deleteCardsBySetId(String name) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

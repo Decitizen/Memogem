@@ -17,9 +17,9 @@ import memogem.coreapplication.Set;
  *SQL-database.
  */
 public class SetDAO implements Dao<Set> {
-    private Connection dbConnection;
-    private Statement statement;
-    private String dbAddress;
+    private Connection dbConnection; //Connection to SQL database
+    private Statement statement; //Used to make queries to the SQL database
+    private String dbAddress; //Address of the SQL database
 
     public SetDAO(String dbAddress) {
         try {
@@ -31,16 +31,26 @@ public class SetDAO implements Dao<Set> {
         }
     }
     
+    /**
+     * Delete set from the SQL-database.
+     * @param set
+     * @throws SQLException 
+     */
     @Override
     public void delete(Set set) throws SQLException {
-        String name = set.getId();
+        String setId = set.getId();
         CardDAO cardDao = new CardDAO(dbAddress);
-        cardDao.deleteCardsBySetId(name);
+        cardDao.deleteCardsBySetId(setId);
         //needs more refinement, how to delete all the cards that have particular SetId
-        statement.executeQuery("DELETE FROM Set WHERE Name = '" + name + "';");
+        statement.executeQuery("DELETE FROM Set WHERE Name = '" + setId + "';");
         closeConnection();
     }
 
+    /**
+     * Adds new Set-object to the SQL-database.
+     * @param set
+     * @throws SQLException 
+     */
     @Override
     public void add(Set set) throws SQLException {
         if (set.getLastTimeStudied() != null) {
@@ -56,11 +66,19 @@ public class SetDAO implements Dao<Set> {
         closeConnection();
     }
 
+    /**
+     * Update not supported
+     */
     @Override
     public void update(Set key) throws SQLException {
         //not supported
     }
-
+    
+    /**
+     * Returns all the sets stored into the SQL database.
+     * @return List of Set-objects
+     * @throws SQLException 
+     */
     @Override
     public List<Set> getAll() throws SQLException {
         ResultSet resultSet = statement.executeQuery("SELECT * FROM Set;");
@@ -80,7 +98,9 @@ public class SetDAO implements Dao<Set> {
         }
         return sets;
     }
-    
+    /**
+     * Closes connection to the SQL-database.
+     */
     private void closeConnection() {
         try {
             if (statement != null) {

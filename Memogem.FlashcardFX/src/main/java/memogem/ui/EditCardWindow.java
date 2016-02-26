@@ -23,15 +23,15 @@ import static memogem.ui.MainWindow.closeProgram;
 
 /**
  * This class is responsible for the functionality and layout of
- * the window where the user can add or edit new Cards to/in the database.
+ * the window where the user can add or edit new Cards in the database.
  */
 
 public class EditCardWindow {
-    private Database database;
-    private Stage editWindow;
-    private GridPane gridPane;
-    private CardEngine cEngine;
-    private Set currentSet;
+    private Database database; //Session's database
+    private Stage editWindow; // Primary stage of this window
+    private GridPane gridPane; // GridPane for the top elements, child of borderpane
+    private CardEngine cEngine; // CardEngine that handles all the card's operations
+    private Set currentSet; // Holds the current set under study
     
     public EditCardWindow(Database database, CardEngine cEngine, Set currentSet) {
         this.database = database;
@@ -40,7 +40,9 @@ public class EditCardWindow {
         this.cEngine = cEngine;
         this.currentSet = currentSet;
     }
-    
+    /**
+     * Creates new Study-window
+     */
     public void createMWindow() {
         //Give title
         editWindow.setTitle("MemoGem - Edit Card");
@@ -68,6 +70,9 @@ public class EditCardWindow {
         
     }
     
+    /**
+     * Creates all the necessary graphical components of this window
+     */
     private void createComponents() {
         //Create Labels
         Label labelWriteFront = new Label("Front");
@@ -159,6 +164,18 @@ public class EditCardWindow {
         database.addNewCard(newCard);
     }
     
+    /**
+     * Draws the edit card-window
+     */
+    public void show() {
+        editWindow.show();
+    }
+    
+    /**
+     * Splits the tags into separate tags
+     * @param tagNames as list of strings
+     * @return 
+     */
     private List<String> splitTagNames(List<String> tagNames) {
         List<String> singleTags = new ArrayList<>();
         if (!tagNames.isEmpty()) {
@@ -180,10 +197,5 @@ public class EditCardWindow {
         return singleTags;
     }
     
-    /**
-     * Draws the edit card-window
-     */
-    public void show() {
-        editWindow.show();
-    }
+    
 }

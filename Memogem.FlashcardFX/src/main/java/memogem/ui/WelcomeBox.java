@@ -15,7 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- *
+ *Works as a splash screen at the startup. Shows progressbar.
  */
 public class WelcomeBox {
     

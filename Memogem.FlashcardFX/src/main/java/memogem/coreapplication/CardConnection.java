@@ -1,20 +1,20 @@
 
 package memogem.coreapplication;
 import java.util.Objects;
+
 /**
 *Connection-class holds the type of connection between two cards and
 *knows which cards it relates to.
  */
-
 public class CardConnection {
-    private LogicalConnection connectionType;
-    private Card connectionToCard;
+    private LogicalConnection connectionType; //type of connection
+    private Card connectionToCard; //connection to which card
 
     public CardConnection(LogicalConnection connectionType, Card connectionToCard) {
         this.connectionType = connectionType;
         this.connectionToCard = connectionToCard;
     }
-    
+   
     public LogicalConnection getConnectionType() {
         return connectionType;
     }

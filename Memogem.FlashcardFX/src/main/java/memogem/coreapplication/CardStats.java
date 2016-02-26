@@ -12,11 +12,11 @@ import java.util.Random;
  *as "private CardStats stats."
  */
 public class CardStats {
-    private List<Integer> studySpeeds;
-    private List<Integer> studyDifficulty;
-    private List<LocalDateTime> studyDates;
-    private int charcount;
-    private Timestamp timestamp;
+    private List<Integer> studySpeeds; // studytimes (in millis)
+    private List<Integer> studyDifficulty; // user-evaluated difficulties for reviews
+    private List<LocalDateTime> studyDates; // dates of study
+    private int charcount; // count of characters in the card, used in calculation
+    private Timestamp studyTimestamp; //timestamp-object for measuring study times
     
     
     public CardStats(int charlength) {
@@ -28,7 +28,7 @@ public class CardStats {
         this.studyDifficulty = studyDifficulty;
         this.studyDates = studyDates;
         this.charcount = charcount;
-        timestamp = new Timestamp();
+        studyTimestamp = new Timestamp();
     }
 
     /**
@@ -51,15 +51,15 @@ public class CardStats {
      * Starts taking time.
      */
     public void startStudying() {
-        timestamp.start();
+        studyTimestamp.start();
     }
     
     /**
      * Stops taking time and saves it to the collection. 
      */    
     public void stopStudying() {
-        timestamp.stop();
-        int speed = timestamp.calculateSpeed();
+        studyTimestamp.stop();
+        int speed = studyTimestamp.calculateSpeed();
         studySpeeds.add(speed);
         studyDates.add(LocalDateTime.now());
         
@@ -98,13 +98,14 @@ public class CardStats {
         return calculateAVG(studyDifficulty);
     }
 
-    public int calculateAVG(List<Integer> list) {
+    public double calculateAVG(List<Integer> list) {
         if (list.size() > 0) {
-            return calculateSum(list.size(), list) / studySpeeds.size();
+            return (calculateSum(list.size(), list) * 1.0) / studySpeeds.size();
         } else {
             return 0;
         }
     }
+    
     /**
      * Calculates average speed for the last three times that were 
      * used to study particular card.
@@ -156,13 +157,12 @@ public class CardStats {
         return calculateSum(studySpeeds.size(), studySpeeds);
     }
     
-    
     /**
-     *  For testing-purposes.
+     * For testing-purposes. Speeds up testing by making possible
+     * the creation of fake practices.
+     * 
      */
     public void addNewPractise(int speed) {
-        
-        
         //Add new difficulty
         addNewDifficulty(new Random().nextInt(4) - 2);
         
@@ -177,6 +177,24 @@ public class CardStats {
         if (speed > 0) {
             studySpeeds.add(speed);
         }
+    }
+    /**
+     * Calculates sum of given list or just part of it
+     * @param times sum of how many values (counting from the
+     * list's latest values.
+     * @param list List of Integers that will be summed up into
+     * a final value.
+     * @return Summed up value as integer
+     */
+    private int calculateSum(int times, List<Integer> list) {
+        int sum = 0;
+        if (times > list.size()) {
+            times = list.size();
+        }
+        for (int i = (times - 1); i >= 0; i--) {
+            sum += list.get(i);
+        }
+        return sum;
     }
     
     /**
@@ -220,18 +238,5 @@ public class CardStats {
             return studyDates.get(index);
         }
         return null;
-        
     }
-    
-    private int calculateSum(int times, List<Integer> list) {
-        int sum = 0;
-        if (times > list.size()) {
-            times = list.size();
-        }
-        for (int i = (times - 1); i >= 0; i--) {
-            sum += list.get(i);
-        }
-        return sum;
-    }
-    
 }

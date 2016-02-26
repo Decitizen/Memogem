@@ -13,35 +13,35 @@ import java.util.Scanner;
  * @author Willburner
  */
 public class CardEngine {
-    private Set engineSet;
-    private List<Card> cards;
-    private List<Card> sortedCards;
-    
-    private int setSuccessrate;
-    private int studymode;
-    private int cardIndex;
-    private List<Integer> sumOfTime;
+    private Set engineSet; //currently studied set of cards
+    private List<Card> sortedCards; //set's card ordered according to studymode
+    private int studymode; //studymode
+    private int cardIndex; //keep's track of set's place
+    private List<Integer> sumOfTime; //overall sum of time of this study-session
     
     public CardEngine() {
-        this.cards = null;
         this.sortedCards = null;
         this.sumOfTime = null;
-        setSuccessrate = 0;
         studymode = 0;
     }
-
+    
+    /**
+     * Begins the study of chosen set of cards.
+     * @param set set that is to be studied
+     */
     public void studySet(Set set) {
         engineSet = set;
-        cards = set.getCards();
         sortedCards = new ArrayList<>();
         sumOfTime = new LinkedList<>();
-        sortedCards.addAll(cards);
-        setSuccessrate = 0;
+        sortedCards.addAll(engineSet.getCards());
         calculateCardOrder();
         cardIndex = 0;
     }
     /**
      * Selection for different modes of study.
+     * 1. Sort by difficulty (only half of the set, most difficult first)
+     * 2. Sort by longest review times
+     * 3. Fresh, randomized order
      * @param mode 
      */
     public void setStudyMode(int mode) {
@@ -75,13 +75,13 @@ public class CardEngine {
         }
     }
     /**
-     * Gives new card.
-     * @return 
+     * Returns next card that will be studied.
+     * @return Card-object
      */
     public Card next() {
-        if ((cards == null)) {
+        if ((engineSet.getCards() == null)) {
             return null;
-        } else if (cardIndex == (cards.size() - 1)) {
+        } else if (cardIndex == (engineSet.getCards().size() - 1)) {
             return null;
         } else {
             Card returnCard = sortedCards.get(cardIndex);
@@ -89,22 +89,16 @@ public class CardEngine {
             return returnCard;
         }
     }
-
-    private void showFront(Card card) {
-        System.out.println("Front: " + card.getFront());
-    }
-
-    private void inputRating(Card card, Scanner scanner) {
-        System.out.println("\n1 for Again\n"
-                + "2 for Good\n"
-                + "3 for Difficult\n");
-        int parsed = Integer.parseInt(scanner.nextLine());
-        card.getStats().addNewDifficulty(parsed-2);
-    }
-
-    private void keyPress(Scanner scanner) {
-        System.out.println("Input any sequence of characters to show answer");
-        scanner.nextLine();
+    
+    /**
+     * Adds new user-evaluated rating to the list of ratings
+     * in the card's statistics. 
+     * @param rating (value as integer from easy to difficult: 2,1,0,-1,-2)
+     */
+    public void inputRating(int rating) {
+        if (rating >= -2 && rating <= 2) {
+            sortedCards.get(cardIndex).getStats().addNewDifficulty(rating);
+        }
     }
 
     public Set getSet() {
@@ -117,10 +111,6 @@ public class CardEngine {
 
     public List<Card> getSortedCards() {
         return sortedCards;
-    }
-    
-    private void showBack(Card card) {
-        System.out.println("\nBack: " + card.getBack());
     }
     
 }

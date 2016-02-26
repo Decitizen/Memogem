@@ -120,10 +120,10 @@
                 <version>1.1.8</version>
                 <configuration>
                     <targetClasses>
-                        <param>memogem.sovelluslogiikka.*</param>
+                        <param>memogem.coreapplication.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>memogem.sovelluslogiikka.*</param>
+                        <param>memogem.coreapplication.*</param>
                     </targetTests>
                 </configuration>
             </plugin>

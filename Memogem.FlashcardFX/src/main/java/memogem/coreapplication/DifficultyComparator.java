@@ -3,6 +3,10 @@ package memogem.coreapplication;
 
 import java.util.Comparator;
 
+/**
+ * This comparator class can be used in order to sort cards
+ * due to their AVGdifficulty-ratings.
+ */
 public class DifficultyComparator implements Comparator<Card> {
 
     @Override

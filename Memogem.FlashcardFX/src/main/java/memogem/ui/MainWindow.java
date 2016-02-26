@@ -1,8 +1,6 @@
 
 package memogem.ui;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -16,11 +14,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import static javafx.scene.layout.GridPane.REMAINING;
@@ -38,17 +32,14 @@ import memogem.coreapplication.Set;
 
 /**
  *Creates the program's main "Control Panel"-window.
- *
  */
 public class MainWindow {
-    private Database database;
-    private Stage mainWindow;
-    private GridPane gridPane;
-    private SplitPane splitPane;
-    private BorderPane borderPane;
-    private CardEngine cEngine;
-    private Set currentSet;
-    private int studyMode;
+    private Database database; // Session's database
+    private Stage mainWindow; // Primary stage of this window
+    private GridPane gridPane; // GridPane for the top elements, child of borderpane
+    private BorderPane borderPane; // Borderpane, parent of 
+    private CardEngine cEngine; // CardEngine that handles all the card's operations
+    private Set currentSet; // Holds the current set under study
     
     final NumberAxis xAxis = new NumberAxis(1, 31, 1);
     final NumberAxis yAxis = new NumberAxis();
@@ -58,10 +49,11 @@ public class MainWindow {
         this.cEngine = cEngine;
         this.mainWindow = mainWindow;
         this.gridPane = new GridPane();
-        splitPane = new SplitPane();
         currentSet = null;
     }
-    
+    /**
+     * Creates new Main-window
+     */
     public void createMWindow() {
         //Give title
         mainWindow.setTitle("MemoGem - Control Panel");
@@ -92,6 +84,9 @@ public class MainWindow {
         WelcomeBox.display("MemoGem", "Welcome to Memogem");
     }
     
+    /**
+     * Creates all the necessary graphical components of this window
+     */
     public void createComponents() {
         //Create Labels
         Label chooseSetLabel = new Label("Choose topic:");
@@ -115,7 +110,6 @@ public class MainWindow {
         HBox statisticsBox2 = hboxes.get(1);
         HBox statisticsBox3 = hboxes.get(2);
         
-        
         setNames.setValue(currentSet.getName());
         setNames.setMinWidth(100);
         setNames.setMaxWidth(300);
@@ -132,7 +126,8 @@ public class MainWindow {
         });
         
         //Create MenuBar
-        MenuBar menuBar = createMenuBar();
+        MainMenubar mainMenuBar = new MainMenubar(database, cEngine, mainWindow);
+        MenuBar menuBar = mainMenuBar.createMenuBar();
         
         //Create piechart
         PieChart pieChart = pieChart();
@@ -156,7 +151,6 @@ public class MainWindow {
         GridPane.setConstraints(setNames, 0, 2);
         GridPane.setConstraints(menuBar, 0, 0);
         
-
         GridPane.setColumnSpan(statisticsBox1, REMAINING);
         GridPane.setColumnSpan(statisticsBox2, REMAINING);
         GridPane.setColumnSpan(statisticsBox3, REMAINING);
@@ -211,16 +205,19 @@ public class MainWindow {
         
         //Study now! action
         studyNow.setOnAction(e -> {
-            StudyWindow studyWindow = new StudyWindow(database, mainWindow, cEngine, currentSet, studyMode);
+            StudyWindow studyWindow = new StudyWindow(database, mainWindow, cEngine, currentSet, cEngine.getStudymode());
             studyWindow.createSWindow();
         });
         
-        //Create bordepane
+        //Create parent layout, borderpane
         borderPane = new BorderPane(pieChart, gridPane, studyChart, hbox, null);
         BorderPane.setMargin(hbox, new Insets(15));
         
     }
-
+    /**
+     * Creates/Updates statistics
+     * @return List of HBoxes
+     */
     public List<HBox> setSetStatsText() {
         //Create set statistics
         Label setStatsCardAmounLabel = new Label("Cards:");
@@ -338,38 +335,7 @@ public class MainWindow {
         return studyAreaChart;
     }
     
-    /**
-     * Creates the mainWindow's menubar.
-     * @return 
-     */
-    public MenuBar createMenuBar() {
-        final MenuBar menuBar = new MenuBar();
-        // Prepare left-most 'File' drop-down menu
-        final Menu fileMenu = new Menu("File");
-        final Menu optionsMenu = new Menu("Options");
-        final Menu modeMenu = new Menu("Study Mode");
-        
-        MenuItem mode1 = new MenuItem("By Difficulty");
-        MenuItem mode2 = new MenuItem("By Least Studied");
-        MenuItem mode3 = new MenuItem("Fresh");
-        
-        mode1.setOnAction(e -> cEngine.setStudyMode(1));
-        mode2.setOnAction(e -> cEngine.setStudyMode(2));
-        mode3.setOnAction(e -> cEngine.setStudyMode(3));
-        
-        modeMenu.getItems().add(mode1);
-        modeMenu.getItems().add(mode2);
-        modeMenu.getItems().add(mode3);
-        MenuItem exitMenu = new MenuItem("Exit");
-        exitMenu.setOnAction( e -> closeProgram(mainWindow, database));
-        
-        fileMenu.getItems().add(new SeparatorMenuItem());
-        fileMenu.getItems().add(exitMenu);
-        
-        menuBar.getMenus().addAll(fileMenu, optionsMenu, modeMenu);
-        
-        return menuBar;
-    }
+    
 
 
 }

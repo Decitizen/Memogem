@@ -40,11 +40,11 @@ import static memogem.ui.MainWindow.closeProgram;
  *Creates the primary window where the cards are viewed and studied.
  */
 public class StudyWindow {
-    private Database database;
-    private Stage studyWindow;
-    private BorderPane borderPane;
-    private CardEngine cEngine;
-    private Set currentSet;
+    private Database database; // Session's database
+    private Stage studyWindow; // Primary stage of this window
+    private BorderPane borderPane; // Borderpane, parent of other layouts
+    private CardEngine cEngine;  // CardEngine that handles all the card's operations
+    private Set currentSet;  // Holds the current set under study
 
     public StudyWindow(Database database, Stage editWindow, CardEngine cEngine, Set currentSet, int studymode) {
         this.database = database;
@@ -52,7 +52,9 @@ public class StudyWindow {
         this.studyWindow = new Stage();
         this.borderPane = new BorderPane();
     }
-    
+    /**
+     * Creates new window for the actual studying of the cards.
+     */
     public void createSWindow() {
         //Give title
         studyWindow.setTitle("MemoGem - Study Set");
