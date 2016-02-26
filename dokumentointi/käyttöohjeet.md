@@ -12,10 +12,13 @@ For now the “File”-menu only supports “Exit” function. Click “File” 
 Options is not yet supported. 
 
 In “Study Mode”-menu you can select from three different modes of study (left-mouse-click to select):
+
 1. “By Difficulty”
 In this mode set is ordered according to most difficult cards and in descending order. In order to gain maximum efficiency and learning rate, the easier cards are filtered out of this study session. 
+
 2. “By Least Studied” – 
 In this mode set is ordered according to cards which have been studied least (in ascending order). Includes all the cards.
+
 3. “Fresh”
 This mode of study fully randomizes the order of the cards in the set.
 
