@@ -23,3 +23,5 @@
 
 26/02/2016 (5h) : Piechartin ja areachartin kanssa pähkäilyä. Käyttöliittymän refaktorointia. Dokumentaation, javadocin ja käyttöohjeiden kirjoittamista. Puuttuvien kaavioiden piirtämistä. Study-window-bugin metsästystä.
 
+01/03/2016 (6h) : Daoiden testaamista ja SQL-kyselyiden suoraviivaistamista. Bugien etsimistä ja poistamista. InitDB-testejä. Tällä hetkellä SQL-tietokantaan voi tallettaa kortteja kaikkine tietoineensa, sekä yksinäisiä settejä. Lisäksi SQL:n ON DELETE CASCADE käsky mahdollistaa kokonaisten settien ja korttien poiston kaikkine sidostietoinensa foreign avaimeen kytkettyjen poistoriippuvuuksien ansiosta.
+
