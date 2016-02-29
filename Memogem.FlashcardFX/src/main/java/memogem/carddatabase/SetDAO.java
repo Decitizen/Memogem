@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import memogem.coreapplication.Card;
 import memogem.coreapplication.Set;
 
 /**
@@ -22,11 +23,14 @@ public class SetDAO implements Dao<Set> {
     private String dbAddress; //Address of the SQL database
 
     public SetDAO(String dbAddress) {
+        this.dbAddress = dbAddress;
+    }
+
+    public void connect() {
         try {
-            this.dbAddress = dbAddress;
-            this.dbConnection = DriverManager.getConnection("jcdb:sqlite:" + dbAddress + ".db");
+            this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + dbAddress + "");
             statement = dbConnection.createStatement();
-        } catch (SQLException se) {
+        }catch (SQLException se) {
             System.out.println(se.getMessage());
         }
     }
@@ -38,12 +42,10 @@ public class SetDAO implements Dao<Set> {
      */
     @Override
     public void delete(Set set) throws SQLException {
-        String setId = set.getId();
-        CardDAO cardDao = new CardDAO(dbAddress);
-        cardDao.deleteCardsBySetId(setId);
-        //needs more refinement, how to delete all the cards that have particular SetId
-        statement.executeQuery("DELETE FROM Set WHERE Name = '" + setId + "';");
-        closeConnection();
+        connect();
+        //deletes everything because of the ON DELETE CASCADE
+        statement.executeUpdate("DELETE FROM CardSet WHERE Name = '" + set.getName() + "';");
+        closeStatementAndConnection();
     }
 
     /**
@@ -53,17 +55,18 @@ public class SetDAO implements Dao<Set> {
      */
     @Override
     public void add(Set set) throws SQLException {
+        connect();
         if (set.getLastTimeStudied() != null) {
-            statement.executeQuery("INSERT INTO CardSet(Id, Name, LastTimeStudied) VALUES "
+            statement.executeUpdate("INSERT INTO CardSet(Id, Name, LastTimeStudied) VALUES "
                     + "('" + set.getId() + "', "
                     + "'" + set.getName() + "', "
                     + "'" + set.getLastTimeStudied() + "');");
         } else {
-            statement.executeQuery("INSERT INTO CardSet(Id, Name) VALUES "
+            statement.executeUpdate("INSERT INTO CardSet(Id, Name) VALUES "
                     + "('" + set.getId() + "', "
                     + "'" + set.getName() + "');");
-        }
-        closeConnection();
+        } 
+        closeStatementAndConnection();
     }
 
     /**
@@ -101,7 +104,7 @@ public class SetDAO implements Dao<Set> {
     /**
      * Closes connection to the SQL-database.
      */
-    private void closeConnection() {
+    private void closeStatementAndConnection() {
         try {
             if (statement != null) {
                 statement.close();

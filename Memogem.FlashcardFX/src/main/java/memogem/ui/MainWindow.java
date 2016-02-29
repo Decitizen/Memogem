@@ -37,7 +37,7 @@ public class MainWindow {
     private Database database; // Session's database
     private Stage mainWindow; // Primary stage of this window
     private GridPane gridPane; // GridPane for the top elements, child of borderpane
-    private BorderPane borderPane; // Borderpane, parent of 
+    private BorderPane borderPane; // Borderpane, parent of other layouts
     private CardEngine cEngine; // CardEngine that handles all the card's operations
     private Set currentSet; // Holds the current set under study
     

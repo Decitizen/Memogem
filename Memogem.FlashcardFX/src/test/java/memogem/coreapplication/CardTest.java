@@ -154,12 +154,6 @@ public class CardTest {
         assertTrue(card1.contains(new Tag("Englanti")));
     }
     
-    @Test
-    public void testaaToimiikoToStringOikein() {
-        assertEquals("Card: " + card1.getId() + ", Tags: [] \n" +
-                    "   Front: Siviili \n" +
-                    "   Back: Civilian", card1.toString());
-    }
     
     @Test
     public void testaaToimiikoEqualsOikein() {

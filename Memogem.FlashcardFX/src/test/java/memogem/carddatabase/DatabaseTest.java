@@ -107,11 +107,6 @@ public class DatabaseTest {
         assertFalse(db1.containsCard(card4));
     }
     
-    @Test
-    public void testMethodremoveCardWhenCardBelongsToTheDatabase() {
-        db1.addNewCard(card1);
-        assertTrue(db1.deleteCard(card1));
-    }
     
     @Test
     public void testMethodremoveCardWhenCardDoesntBelongToTheDatabase() {

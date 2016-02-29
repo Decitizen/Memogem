@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: memogem.carddatabase.SetDAOTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.78 sec - in memogem.carddatabase.SetDAOTest

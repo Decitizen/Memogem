@@ -239,4 +239,10 @@ public class CardStats {
         }
         return null;
     }
+
+    public List<Integer> getStudyDifficulty() {
+        return studyDifficulty;
+    }
+    
+    
 }

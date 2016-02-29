@@ -141,7 +141,7 @@ public class DatabaseLoaderDAO implements Dao<Set> {
                 String cardSetDateTime = rs.getString("s.LastTimeStudied");
                 LocalDateTime locDT = null;
                 if (!cardSetDateTime.isEmpty()) {
-                    locDT = (LocalDateTime) formatter.parse(cardSetDateTime);
+                    locDT = LocalDateTime.parse(cardSetDateTime, formatter);
                 }
                 set = new Set(cardSetId, cardSetName, locDT);
                 sets.add(set);
@@ -171,7 +171,7 @@ public class DatabaseLoaderDAO implements Dao<Set> {
                     }
 
                     if (!studyDate1.isEmpty()) {
-                        LocalDateTime locDT = (LocalDateTime) formatter.parse(studyDate1);
+                        LocalDateTime locDT = LocalDateTime.parse(studyDate1, formatter);
                         studyDates.add(locDT);
                     }
                 }
