@@ -49,6 +49,21 @@ public class CardEngine {
             studymode = mode;
         }
     }
+    
+    /*
+    Algorithm that calculates this round's mastery percentage and
+    moves already mastered cards to basket: mastered. Could be based on
+    the average difficulty of last three hours of studytime or if more 
+    than two rounds based on three last rounds' avg. 
+    (Even better could calculate the whole of this study session's 
+    duration and amount of activity and relativize on that.)
+    
+    Whole sessions activity could be based on the amount of cards studied during
+    last half hour. Long pauses (more than minute) between cards could be ignored.
+    Keep count of cards studied overall during this session. Maybe even do a small
+    SQL table just to represent that. Table "Session" could be combined with sets and cards.
+    */
+    
     /**
      * Calculates the study order according to the studymode.
      * Modes are: 
