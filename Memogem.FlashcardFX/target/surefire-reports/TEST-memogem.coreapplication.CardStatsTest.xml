@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="memogem.carddatabase.CardDAOTest" time="18.652" tests="2" errors="0" skipped="0" failures="0">
+<testsuite name="memogem.coreapplication.CardStatsTest" time="0" tests="19" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_40\jre\bin"/>
@@ -63,6 +63,23 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase name="cardAddNewCard" classname="memogem.carddatabase.CardDAOTest" time="14.82"/>
-  <testcase name="cardAddNewCardWithTags" classname="memogem.carddatabase.CardDAOTest" time="3.832"/>
+  <testcase name="testaaMetodincalculateAVGSpeedToimintaaKunMuutamiaNollaSyotteita" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testaaMetodinaddNewPracticeToimintaaViidestiHarjoiteltu" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testMethodCalculateVarianceWithFourStudyTimesAndOneZero" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testMethodCalculateStandardVariationWithFiveStudyTimes" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testaaMetodincalculateAVGSpeedToimintaaKuusiPositiivistaSyotetta" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testaaMetodinaddNewPracticeToimintaaVaarallaSyotteella" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testMethodCalculateVarianceWithFiveStudyTimes" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testaaMetodinChangeCharCountToimintaa" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testaaMetodinStartStudyingJaStopStudyingToimintaa" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testaaMetodinaddNewPracticeToimintaaViidestiHarjoiteltuKunMuutamiaNegatiivisiaSyotteita" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testaaMetodinChangeCharCountToimintaaVaarallaSyotteella" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testaaMetodincalculateTimeStudiedToimintaa1" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testaaMetodinaddNewPracticeToimintaaNeljastiHarjoiteltu" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testaaMetodincalculateTimeStudiedToimintaaKunNollaSyotteita" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testaaMetodincalculateTimeStudiedToimintaaKunNegatiivinenSyote" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testaaMetodincalculateAVGSpeedToimintaaKunNollaSyotteita" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testaaMetodinaddNewPracticeToimintaaViidestiHarjoiteltuKunVainNegatiivisiaSyotteita" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testaaAddNewTimestamptoimintaa" classname="memogem.coreapplication.CardStatsTest" time="0"/>
+  <testcase name="testMethodCalculateStandardVariationWithJustOneStudyTime" classname="memogem.coreapplication.CardStatsTest" time="0"/>
 </testsuite>

@@ -42,7 +42,7 @@ public class Database {
         
         if (!connectDatabase(dbAddress)) {
             if (deBugMode) System.out.println("/n Initializing new database...");
-//            initializeEmptyDatabase();
+            initializeEmptyDatabase();
         }
     }
     
@@ -97,15 +97,15 @@ public class Database {
         if (deBugMode) System.out.println("/n Adding card " + card.getId() + " to the db.");
         if (!(card.getFront().isEmpty() && card.getBack().isEmpty() && !this.containsCard(card))) {
             
-//            try {
-//                CardDAO cardDao = new CardDAO(dbAddress);
-//                cardDao.add(card);
-//                if (deBugMode) System.out.println("/n Card added successfully.");
+            try {
+                CardDAO cardDao = new CardDAO(dbAddress);
+                cardDao.add(card);
+                if (deBugMode) System.out.println("/n Card added successfully.");
                 return cardDatabase.add(card);
                 
-//            } catch (SQLException se) {
-//                System.out.println(se.getMessage() + "couldn't add a new Card.");
-//            }
+            } catch (SQLException se) {
+                System.out.println(se.getMessage() + "couldn't add a new Card.");
+            }
         } 
         return false;
     }
@@ -145,14 +145,14 @@ public class Database {
     public boolean addNewSet(Set set) {
         if (!sets.contains(set)) {
             
-//            try {
-//                SetDAO setDao = new SetDAO(dbAddress);
-//                setDao.add(set);
+            try {
+                SetDAO setDao = new SetDAO(dbAddress);
+                setDao.add(set);
                 return sets.add(set);
                 
-//            } catch (SQLException se) {
-//                System.out.println(se.getMessage() + "couldn't add a new set.");
-//            }
+            } catch (SQLException se) {
+                System.out.println(se.getMessage() + "couldn't add a new set.");
+            }
         }
         return false;
     }

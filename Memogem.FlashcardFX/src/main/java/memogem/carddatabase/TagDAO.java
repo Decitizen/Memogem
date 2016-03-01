@@ -19,9 +19,9 @@ import memogem.coreapplication.Tag;
  *SQL-database.
  */
 public class TagDAO implements Dao<Tag> {
-    private Connection dbConnection;
-    private Statement statement;
-    private String dbAddress;
+    private Connection dbConnection; //Connection to SQL database
+    private Statement statement; //Used to make queries to the SQL database
+    private String dbAddress; //Address of the SQL database
 
     public TagDAO(String dbAddress) {
         this.dbAddress = dbAddress;

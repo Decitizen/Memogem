@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import memogem.coreapplication.Card;
@@ -27,16 +28,13 @@ import memogem.coreapplication.Tag;
  */
 public class DatabaseLoaderDAO implements Dao<Set> {
     
-    private Connection dbConnection;
-    private Statement statement;
-    private List<Set> sets;
-    private List<Card> cardDatabase;
-    private Map<Tag, List<Card>> tagDatabase;
-    private String dbAddress;
-    
+    private Connection dbConnection; // Connection to the database
+    private List<Set> sets; // All of the sets included in the database
+    private List<Card> cardDatabase; // All of the cards included in the database
+    private Map<Tag, List<Card>> tagDatabase; // Cards in HashMap by their tags
+    private String dbAddress; // link to the name of the database
 
     public DatabaseLoaderDAO(List<Set> sets, List<Card> cardDatabase, Map<Tag, List<Card>> tagDatabase, String dbAddress) throws SQLException {
-        connect();
         this.sets = sets;
         this.cardDatabase = cardDatabase;
         this.tagDatabase = tagDatabase;
@@ -44,8 +42,7 @@ public class DatabaseLoaderDAO implements Dao<Set> {
     }
 
     public void connect() throws SQLException {
-        this.dbConnection = DriverManager.getConnection("jcdb:sqlite:" + dbAddress + ".db");
-        statement = dbConnection.createStatement();
+        this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + dbAddress + "");
     }
     
     private void addTagsToDb(List<Tag> cardTags, Card card) {
@@ -76,16 +73,25 @@ public class DatabaseLoaderDAO implements Dao<Set> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * This method takes care of loading the necessary information into the
+     * local Database during program's startup. The whole operation will take
+     * only 1 main SQL-query. But because of the structure tags need to be added
+     * to the cards by individual SQL-queries (1per Card-object). Method is huge
+     * due to it being very difficult to break down into smaller steps in any
+     * rational means.
+     * @return List of Set-objects.
+     * @throws SQLException 
+     */
     @Override
     public List<Set> getAll() throws SQLException {
-
+        connect();
+        Statement statement = dbConnection.createStatement();
         //SQL query:
-        ResultSet rs = statement.executeQuery("SELECT * FROM CardSet s, Card c, CardTag ct, StudySpeed ss "
+        ResultSet rs = statement.executeQuery("SELECT * FROM CardSet s, Card c, StudySpeed ss "
                 + "WHERE s.id = c.CardSetId "
-                + "AND c.id = ct.CardId "
                 + "AND c.id = ss.CardId "
                 + "ORDER BY c.CardSetId ASC, c.id ASC;");
-        
         Set set = null;
         Card card = null;
         
@@ -93,77 +99,86 @@ public class DatabaseLoaderDAO implements Dao<Set> {
         String cardId = null;
         
         String studySpeedId = null;
-        String tagName = null;
-        List<Integer> studySpeeds = null;
-        List<Integer> studyDifficulty = null;
-        List<LocalDateTime> studyDates = null;
-        List<Tag> cardTags = null;
+        List<Card> cards = new LinkedList();
+        List<Integer> studySpeeds = new LinkedList<>();
+        List<Integer> studyDifficulty = new LinkedList<>();
+        List<LocalDateTime> studyDates = new LinkedList<>();
+
         boolean newCardId = true;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         
         while (rs.next()) {
             newCardId = false;
             //if cardId has changed (or is null), new card-object will be created
-            if (cardId == null || rs.getString("c.Id") != cardId) {
-                
+            if (cardId == null || !(rs.getString("cardId").equals(cardId))) {
                 newCardId = true;
                 
                 if (set != null) {
-                    
                     // card id has changed -> card's attributes will be collected together
-                    card.setTags(cardTags);
                     CardStats tempStats = new CardStats(studySpeeds, studyDates, studyDifficulty, 
                                             (card.getFront().length() + card.getBack().length()));
                     card.setStats(tempStats);
                     studyDates = new ArrayList<>();
                     studySpeeds = new ArrayList<>();
                     studyDifficulty = new ArrayList<>();
-                    cardTags = new ArrayList<>();
                     set.addCard(card); //adding the ready card to the set
+                    cardDatabase.add(card);
                 }
                 
                 //extracting new card's basic information
-                cardId = rs.getString("c.Id");
-                String front = rs.getString("c.Front");
-                String back = rs.getString("c.Back");
+                cardId = rs.getString("CardId");
+                String front = rs.getString("Front");
+                String back = rs.getString("Back");
 
-                int cardType = rs.getInt("c.CardType");
+                int cardType = rs.getInt("CardType");
                 CardType ctype = checkCardType(cardType);
                 card = new Card(back, front, back, ctype, null, null, null);
             }
             
             //if set has changed, extracting set's basic information
-            if (cardSetId == null || rs.getString("c.CardSetId") != cardSetId) {
-                cardSetId = rs.getString("c.CardSetId");
-                String cardSetName = rs.getString("s.Name");
-                
-                //date conversion
-                String cardSetDateTime = rs.getString("s.LastTimeStudied");
-                LocalDateTime locDT = null;
-                if (!cardSetDateTime.isEmpty()) {
-                    locDT = LocalDateTime.parse(cardSetDateTime, formatter);
+            if (cardSetId == null) {
+                if (!rs.getString("CardSetId").equals(cardSetId)) {
+                    cardSetId = rs.getString("CardSetId");
+                    String cardSetName = rs.getString("Name");
+
+                    //date conversion
+                    String cardSetDateTime = rs.getString("LastTimeStudied");
+                    LocalDateTime locDT = null;
+                    if (!cardSetDateTime.isEmpty()) {
+                        locDT = LocalDateTime.parse(cardSetDateTime,
+                                DateTimeFormatter.ISO_DATE_TIME);
+                    }
+                    set = new Set(cardSetId, cardSetName, locDT);
+                    sets.add(set);
                 }
-                set = new Set(cardSetId, cardSetName, locDT);
-                sets.add(set);
             }
             
-            //extracting tags
-            if (tagName == null || rs.getString("ct.TagName") != tagName || newCardId) {
-                tagName = rs.getString("ct.TagName");
-                
-                if (!tagName.isEmpty()) {
-                    cardTags.add(new Tag(tagName));
+            //extracting necessary tags
+            if (newCardId) {
+                ResultSet rsTag = statement.executeQuery("SELECT TagName FROM Card, CardTag "
+                        + "WHERE Card.Id = CardTag.CardId AND CardTag.CardId = '" + cardId + "' "
+                        + "ORDER BY CardTag.TagName ASC;");
+                while (rsTag.next()) {
+                    Tag newTag = new Tag(rsTag.getString("TagName").toLowerCase().trim());
+                    card.addNewTag(newTag);
+                    if (!tagDatabase.containsKey(newTag)) {
+                        List<Card> cardsTagged = new ArrayList<>();
+                        cardsTagged.add(card);
+                        tagDatabase.put(newTag, cardsTagged);
+                    } else {
+                        tagDatabase.get(newTag).add(card);
+                    }
                 }
             }
-            //extracting statistics
-            if (studySpeedId == null || rs.getString("ss.id") != studySpeedId) {
-                //set new id to studySpeedId for comparison purposes
-                studySpeedId = rs.getString("ss.id");
-                if (!studySpeedId.isEmpty()) {
                 
-                    Integer studySpeed1 = rs.getInt("ss.Speed");
-                    Integer studyDifficulty1 = rs.getInt("ss.StudyDifficulty");
-                    String studyDate1 = rs.getString("ss.StudyDate");
+            //extracting statistics
+            if (studySpeedId == null || !(rs.getString("ssid").equals(studySpeedId))) {
+                //set new id to studySpeedId for comparison purposes
+                studySpeedId = rs.getString("ssid");
+                if (!studySpeedId.isEmpty()) {
+                    
+                    Integer studySpeed1 = rs.getInt("Speed");
+                    Integer studyDifficulty1 = rs.getInt("StudyDifficulty");
+                    String studyDate1 = rs.getString("StudyDate");
 
                     if (studySpeed1 != null) {
                         studySpeeds.add(studySpeed1);
@@ -171,13 +186,22 @@ public class DatabaseLoaderDAO implements Dao<Set> {
                     }
 
                     if (!studyDate1.isEmpty()) {
-                        LocalDateTime locDT = LocalDateTime.parse(studyDate1, formatter);
+                        LocalDateTime locDT = LocalDateTime.parse(studyDate1, DateTimeFormatter.ISO_DATE_TIME);
                         studyDates.add(locDT);
                     }
                 }
             }   
         }
-        closeConnection();
+        if (!cardDatabase.isEmpty()) {
+            if (!(cardDatabase.get(cardDatabase.size()-1).equals(card))) {
+                CardStats tempStats = new CardStats(studySpeeds, studyDates, studyDifficulty, 
+                                            (card.getFront().length() + card.getBack().length()));
+                card.setStats(tempStats);
+                cardDatabase.add(card);
+                set.addCard(card);
+            }
+        }
+        closeConnection(statement);
         return sets;
     }
 
@@ -191,7 +215,7 @@ public class DatabaseLoaderDAO implements Dao<Set> {
         return ctype;
     }
     
-    private void closeConnection() {
+    private void closeConnection(Statement statement) {
         try {
             if (statement != null) {
                 statement.close();
@@ -203,51 +227,4 @@ public class DatabaseLoaderDAO implements Dao<Set> {
             System.out.println(se.getMessage());
         }
     }
-    
-    //    public List<Card> getAll2() throws SQLException {
-//        SetDAO setDAO = new SetDAO(dbAddress);
-//        sets.addAll(setDAO.getAll());
-//        //SQL query:
-//        ResultSet rs = statement.executeQuery("SELECT * FROM Card;");
-//        
-//        while (rs.next()) {
-//            //extracting card's basic information
-//            String id = rs.getString("id");
-//            String setId = rs.getString("CardSetId");
-//            String front = rs.getString("Front");
-//            String back = rs.getString("Back");
-//            int cardType = rs.getInt("CardType");
-//            
-//            CardType ctype = null;
-//            if (cardType == 1) {
-//                ctype = CardType.FLASHCARD;
-//            } else {
-//                ctype = CardType.ANSWER;
-//            }
-//            
-//            //extracting card's Stats
-//            CardStatsDAO cardStatsDAO = new CardStatsDAO(dbConnection, statement);
-//            CardStats cardStats = cardStatsDAO.getByCardId(rs.getString(id));
-//            
-//            //extracting necessary tags
-//            TagDAO tagDAO = new TagDAO(dbAddress);
-//            List<Tag> cardTags = tagDAO.getByCardId(rs.getString(id));
-//            
-//            Set temporarySet = null;
-//            //creating Card-object
-//            for (Set set : sets) {
-//                if (set.getId().equals(id)) {
-//                    temporarySet = set;
-//                }
-//            }
-//            Card card = new Card(id, front, back, ctype, cardTags, temporarySet, cardStats);
-//            //adding
-//            temporarySet.addCard(card);
-//            addTagsToDb(cardTags, card);
-//            
-//        }
-//        
-//        closeConnection();
-//        return cardDatabase;
-//    }
 }

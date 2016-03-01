@@ -22,7 +22,6 @@ import static org.junit.Assert.*;
 public class CardDAOTest {
     private String testDBname;
     private Connection dbConnection;
-    private DateTimeFormatter formatter;
     private CardDAO cD;
     private Set testset;
     private InitDb initDb;
@@ -43,14 +42,13 @@ public class CardDAOTest {
         testDBname = "testingDatabase.db";
         testset = new Set("TestSet");
         initDb = new InitDb(testDBname);
-        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        
         try {
             dbConnection = DriverManager.getConnection("jdbc:sqlite:" + testDBname + "");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-//        String cardSetDateTime = "2008-12-26 12:05:05";
-//        LocalDateTime locDT = LocalDateTime.parse(cardSetDateTime, formatter);
+
         try {
             cD = new CardDAO(testDBname);
         } catch (SQLException se) {
@@ -141,7 +139,7 @@ public class CardDAOTest {
         try {
             rs = stmt.executeQuery("SELECT * FROM Card WHERE id = '" + cardId + "';");
         } catch (SQLException se) {
-            assertTrue("Couldn't create Resultset", false);
+            assertTrue("Couldn't create Resultset " + se.getMessage(), false);
         }
         try {
             assertEquals("Couldn't find Front of the Card", rs.getString("Front"), "Jalat");

@@ -17,7 +17,7 @@ import java.util.Comparator;
 public class Card {
     private String id; //individual unique id in UUID format
     private String front; //front-text-field of the flashcard
-    private String back;  //backside-text-field of the flashcard
+    private String back; //backside-text-field of the flashcard
     private CardType type; //type of card: answerable question vs flashcard
     private List<Tag> tags; //tags
     private Set set; //set
@@ -166,7 +166,7 @@ public class Card {
         }
         String stats = "";
         if (this.stats != null) {
-            stats += "\n\n      Average difficulty: " + this.stats.calculateAVGDifficulty();
+            stats += "\n\n       Average difficulty: " + this.stats.calculateAVGDifficulty();
             stats += "\n       Average time per review: " + this.stats.calculateAVGSpeed();
             stats += "\n       Overall time studied: " + this.stats.calculateTimeStudied();
             stats += "\n       Times studied: " + this.stats.getHowfast().size();

@@ -20,7 +20,7 @@ import memogem.coreapplication.Tag;
 public class CardDAO implements Dao<Card> {
     private Connection dbConnection; //Connection to SQL database
     private String dbAddress; //Address of the SQL database
-    private boolean debug;
+    private boolean debug; 
     
     public CardDAO(String dbAddress) throws SQLException {
         this.dbAddress = dbAddress;
@@ -93,24 +93,25 @@ public class CardDAO implements Dao<Card> {
                         + "VALUES "
                         + "('" + card.getId() + "', "
                         + "'" + card.getStats().getHowfast().get(i) + "', "
-                        + "'" + createDateTime(card.getStats().getStudyDates().get(i)) + "', "
+                        + "'" + card.getStats().getStudyDates().get(i) + "', "
                         + "'" + card.getStats().getStudyDifficulty().get(i) + "');");
             }
         }
         if (!card.getTags().isEmpty()) { // if any, add card's tags            
             for (Tag tagx : card.getTags()) {
+                String tagName = tagx.getName().toLowerCase().trim();
                 try {
                 statement.executeUpdate("INSERT INTO CardTag(CardId, TagName) "
                         + "VALUES "
                         + "('" + card.getId() + "', "
-                            + "'" + tagx.getName() + "');");
+                            + "'" + tagName + "');");
                 } catch (SQLException se) {
                     statement.executeUpdate("INSERT INTO Tag(TagName) "
-                            + "VALUES ('" + tagx.getName() + "');");
+                            + "VALUES ('" + tagName + "');");
                     statement.executeUpdate("INSERT INTO CardTag(CardId, TagName) "
                             + "VALUES "
                             + "('" + card.getId() + "', "
-                            + "'" + tagx.getName() + "');");
+                            + "'" + tagName + "');");
                 }
             }
         }
@@ -141,9 +142,6 @@ public class CardDAO implements Dao<Card> {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
     
-    private String createDateTime(LocalDateTime localDT) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return localDT.format(formatter);
-    }
+    
     
 }

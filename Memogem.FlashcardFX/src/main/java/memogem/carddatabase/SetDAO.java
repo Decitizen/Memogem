@@ -85,7 +85,7 @@ public class SetDAO implements Dao<Set> {
     @Override
     public List<Set> getAll() throws SQLException {
         connect();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM Set ORDER BY Name ASC;");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM CardSet ORDER BY Name ASC;");
         List<Set> sets = new ArrayList<>();
         
         while(resultSet.next()) {
@@ -94,8 +94,7 @@ public class SetDAO implements Dao<Set> {
             String dateString = resultSet.getString("LastTimeStudied");
             
             //formatting and extracting date
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            LocalDateTime locDT = LocalDateTime.parse(dateString, formatter);
+            LocalDateTime locDT = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_DATE_TIME);
             
             Set queriedSet = new Set(id, name, locDT);
             sets.add(queriedSet);

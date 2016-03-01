@@ -24,8 +24,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
-
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SetDAOTest {
     private String testDBname;
     private Connection dbConnection;
@@ -59,7 +61,7 @@ public class SetDAOTest {
         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         connect();
     }
-
+    
     public void connect() {
         try {
             dbConnection = DriverManager.getConnection("jdbc:sqlite:" + testDBname + "");
@@ -68,16 +70,6 @@ public class SetDAOTest {
         }
 //        String cardSetDateTime = "2008-12-26 12:05:05";
 //        LocalDateTime locDT = LocalDateTime.parse(cardSetDateTime, formatter);
-    }
-    
-    public void closeConnection() {
-        if (dbConnection != null) {
-            try {
-                dbConnection.close();
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
     }
     
     @After
@@ -98,7 +90,7 @@ public class SetDAOTest {
     }
     
     @Test
-    public void addNewSet() {
+    public void aaddNewSet() {
         Statement stmt = null;
         ResultSet rs = null;
         SetDAO sD = new SetDAO(testDBname);
@@ -107,30 +99,42 @@ public class SetDAOTest {
         } catch (SQLException se) {
             assertTrue("Set SQL-query failed: " + se.getMessage() + "", false);
         }
-        closeStmtAndResultSet(stmt, rs);
+        try {
+            stmt = dbConnection.createStatement();
+            stmt.executeUpdate("DELETE FROM CardSet WHERE Name = '" + testset.getName() + "';");
+        } catch (SQLException se) {
+            assertFalse("Couldn't delete rows: " + se.getMessage(), true);
+        }
         
+        closeConnectionStmtAndResultSet(stmt, rs);
     }
     
     @Test
-    public void addNewSetAndQuery() {
+    public void baddNewSetAndQuery() {
         Statement stmt = null;
         ResultSet rs = null;
         SetDAO sD = new SetDAO(testDBname);
-        Set set2 = new Set("Randomizer2");
+        String setName = "Randomizer2000";
+        Set set2 = new Set(setName);
         try {
             sD.add(set2);
             stmt = dbConnection.createStatement();
             rs = stmt.executeQuery("SELECT * FROM CardSet;");
-            assertEquals(rs.getString("Name"), "Randomizer2");
+            assertEquals(setName, rs.getString("Name"));
         } catch (SQLException se) {
             assertTrue("Set SQL-query failed: " + se.getMessage() + "", false);
         }
-        closeStmtAndResultSet(stmt, rs);
-        
+        try {
+            stmt = dbConnection.createStatement();
+            stmt.executeUpdate("DELETE FROM CardSet WHERE Name = '" + setName + "';");
+        } catch (SQLException se) {
+            assertFalse("Couldn't delete CardSet: " + se.getMessage(), true);
+        }
+        closeConnectionStmtAndResultSet(stmt, rs);
     }
     
     @Test
-    public void addNewSetAndDelete() {
+    public void CaddNewSetAndDelete() {
         SetDAO sD = new SetDAO(testDBname);
         Statement stmt = null;
         ResultSet rs = null;
@@ -144,13 +148,11 @@ public class SetDAOTest {
         } catch (SQLException se) {
             assertTrue("Set SQL-query failed: " + se.getMessage() + "",true);
         }
-        closeConnection();
-        closeStmtAndResultSet(stmt, rs);
-        
+        closeConnectionStmtAndResultSet(stmt, rs);
     }
     
     @Test
-    public void seeIfearlierEntriesAreInTheDB() {
+    public void DseeIfearlierEntriesAreInTheDB() {
         Statement stmt = null;
         ResultSet rs = null;
         SetDAO sD = new SetDAO(testDBname);
@@ -166,37 +168,11 @@ public class SetDAOTest {
         } catch (SQLException se) {
             assertTrue("Set SQL-query failed: " + se.getMessage() + "", false);
         }
-        closeConnection();
-        closeStmtAndResultSet(stmt, rs);
-        
+        closeConnectionStmtAndResultSet(stmt, rs);
     }
     
     @Test
-    public void deleteEarlierTestSets() {
-        Statement stmt = null;
-        ResultSet rs = null;
-        try {
-            connect();
-            stmt = dbConnection.createStatement();
-            stmt.executeUpdate("DELETE FROM CardSet WHERE Name = '" + testset.getName() + "';");
-            stmt.executeUpdate("DELETE FROM CardSet WHERE Name = 'Randomizer2';");
-            rs = stmt.executeQuery("SELECT * FROM CardSet;");
-                    
-            String tulokset = "";
-            while (rs.next()) {
-                tulokset += "" + rs.getString("Name");
-            }
-            assertEquals("", tulokset);
-        } catch (SQLException se) {
-            assertTrue("Set SQL-query failed: " + se.getMessage() + "", false);
-        }
-        closeConnection();
-        closeStmtAndResultSet(stmt, rs);
-        
-    }
-    
-    @Test
-    public void testAddWithThreeSetsFunctionsProperly() {
+    public void FtestAddWithThreeSetsFunctionsProperly() {
         String name1 = "Automation";
         String name2 = "Biology";
         String name3 = "Chemistry";
@@ -218,7 +194,14 @@ public class SetDAOTest {
         } catch (SQLException se) {
             assertTrue("Set SQL-query failed: " + se.getMessage() + "", false);
         }
-        closeStmtAndResultSet(stmt, rs);
+        try {
+            stmt.executeUpdate("DELETE FROM CardSet WHERE Name = '" + name1 + "';");
+            stmt.executeUpdate("DELETE FROM CardSet WHERE Name = '" + name2 + "';");
+            stmt.executeUpdate("DELETE FROM CardSet WHERE Name = '" + name3 + "';");
+        } catch (SQLException se) {
+            assertFalse("Couldn't delete rows: " + se.getMessage(), true);
+        }
+        closeConnectionStmtAndResultSet(stmt, rs);
         
     }
     
@@ -232,6 +215,7 @@ public class SetDAOTest {
         ResultSet rs = null;
         SetDAO sD = new SetDAO(testDBname);
         create3TestSetsByNameAndDate(name1, name2, name3, sD);
+        
         try {
             stmt = dbConnection.createStatement();
             rs = stmt.executeQuery("SELECT * FROM CardSet WHERE name = '" + name2 + "';");
@@ -251,8 +235,14 @@ public class SetDAOTest {
         } catch (SQLException se) {
             assertTrue("Set SQL-query failed: " + se.getMessage() + "", false);
         }
-        closeStmtAndResultSet(stmt, rs);
-        
+        try {
+            stmt = dbConnection.createStatement();
+            stmt.executeUpdate("DELETE FROM CardSet WHERE Name = '" + name1 + "';");
+            stmt.executeUpdate("DELETE FROM CardSet WHERE Name = '" + name3 + "';");
+        } catch (SQLException se) {
+            assertFalse("Couldn't delete rows: " + se.getMessage(), true);
+        }
+        closeConnectionStmtAndResultSet(stmt, rs);
     }
     
     @Test
@@ -265,6 +255,7 @@ public class SetDAOTest {
         create3TestSetsByNameAndDate(name1, name2, name3, sD);
         Statement stmt = null;
         ResultSet rs = null;
+        
         List<Set> setit = new LinkedList<>();
         try {
             setit = sD.getAll();
@@ -276,10 +267,19 @@ public class SetDAOTest {
             tulokset += set.getName();
         }
         assertEquals(resultsCheck, tulokset);
+        try {
+            stmt = dbConnection.createStatement();
+            stmt.executeUpdate("DELETE FROM CardSet WHERE Name = '" + name1 + "';");
+            stmt.executeUpdate("DELETE FROM CardSet WHERE Name = '" + name2 + "';");
+            stmt.executeUpdate("DELETE FROM CardSet WHERE Name = '" + name3 + "';");
+        } catch (SQLException se) {
+            assertFalse("Couldn't delete rows: " + se.getMessage(), true);
+        }
+        closeConnectionStmtAndResultSet(stmt, rs);
     }
     
     
-    public void closeStmtAndResultSet(Statement stmt, ResultSet rs) {
+    public void closeConnectionStmtAndResultSet(Statement stmt, ResultSet rs) {
         try {
             if (rs != null) {
                 rs.close();
@@ -311,6 +311,7 @@ public class SetDAOTest {
         set1.setLastTimeStudied(locDT);
         set2.setLastTimeStudied(locDT.minusMonths(1));
         set3.setLastTimeStudied(locDT.minusYears(10));
+        
         try {
             sD.add(set1);
         } catch (SQLException ex) {

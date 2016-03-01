@@ -1,24 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: memogem.carddatabase.DatabaseLoaderDAOTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 5, Skipped: 0, Time elapsed: 10.674 sec <<< FAILURE! - in memogem.carddatabase.DatabaseLoaderDAOTest
-testTheDatabaseCreationofTableStudySpeed(memogem.carddatabase.DatabaseLoaderDAOTest)  Time elapsed: 8.34 sec  <<< ERROR!
+Tests run: 5, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 101.617 sec <<< FAILURE! - in memogem.carddatabase.DatabaseLoaderDAOTest
+compareImportedCardsWithLocalOnes(memogem.carddatabase.DatabaseLoaderDAOTest)  Time elapsed: 15.218 sec  <<< ERROR!
 java.lang.NullPointerException: null
-	at memogem.carddatabase.DatabaseLoaderDAOTest.testTheDatabaseCreationofTableStudySpeed(DatabaseLoaderDAOTest.java:107)
-
-testTheDatabaseCreationofTableSet(memogem.carddatabase.DatabaseLoaderDAOTest)  Time elapsed: 0.747 sec  <<< ERROR!
-java.lang.NullPointerException: null
-	at memogem.carddatabase.DatabaseLoaderDAOTest.testTheDatabaseCreationofTableSet(DatabaseLoaderDAOTest.java:96)
-
-testTheDatabaseCreationofTableCardTag(memogem.carddatabase.DatabaseLoaderDAOTest)  Time elapsed: 0.45 sec  <<< ERROR!
-java.lang.NullPointerException: null
-	at memogem.carddatabase.DatabaseLoaderDAOTest.testTheDatabaseCreationofTableCardTag(DatabaseLoaderDAOTest.java:85)
-
-testTheDatabaseCreationofTableTag(memogem.carddatabase.DatabaseLoaderDAOTest)  Time elapsed: 0.534 sec  <<< ERROR!
-java.lang.NullPointerException: null
-	at memogem.carddatabase.DatabaseLoaderDAOTest.testTheDatabaseCreationofTableTag(DatabaseLoaderDAOTest.java:74)
-
-testTheDatabaseCreationofTableCard(memogem.carddatabase.DatabaseLoaderDAOTest)  Time elapsed: 0.563 sec  <<< ERROR!
-java.lang.NullPointerException: null
-	at memogem.carddatabase.DatabaseLoaderDAOTest.testTheDatabaseCreationofTableCard(DatabaseLoaderDAOTest.java:63)
+	at memogem.carddatabase.DatabaseLoaderDAOTest.compareImportedCardsWithLocalOnes(DatabaseLoaderDAOTest.java:146)
 

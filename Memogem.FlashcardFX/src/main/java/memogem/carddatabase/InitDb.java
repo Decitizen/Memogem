@@ -57,12 +57,12 @@ public class InitDb {
                     + "FOREIGN KEY (CardId) REFERENCES Card(id) ON DELETE CASCADE);";
 
             String sqlqueryStudySpeed = "CREATE TABLE StudySpeed("
-                    + "id integer, "
+                    + "ssid integer, "
                     + "CardId varchar(36) NOT NULL, "
                     + "Speed integer NOT NULL, "
                     + "StudyDate datetime NOT NULL, "
                     + "StudyDifficulty integer NOT NULL, "
-                    + "PRIMARY KEY (id), "
+                    + "PRIMARY KEY (ssid), "
                     + "FOREIGN KEY (CardId) REFERENCES Card(id) ON DELETE CASCADE);";
             
             statement.executeUpdate("PRAGMA foreign_keys = ON;");
