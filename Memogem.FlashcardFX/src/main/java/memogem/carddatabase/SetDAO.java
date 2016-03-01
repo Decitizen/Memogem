@@ -84,7 +84,8 @@ public class SetDAO implements Dao<Set> {
      */
     @Override
     public List<Set> getAll() throws SQLException {
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM Set;");
+        connect();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM Set ORDER BY Name ASC;");
         List<Set> sets = new ArrayList<>();
         
         while(resultSet.next()) {
@@ -94,11 +95,13 @@ public class SetDAO implements Dao<Set> {
             
             //formatting and extracting date
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            LocalDateTime locDT = (LocalDateTime) formatter.parse(dateString);
+            LocalDateTime locDT = LocalDateTime.parse(dateString, formatter);
             
             Set queriedSet = new Set(id, name, locDT);
             sets.add(queriedSet);
         }
+        resultSet.close();
+        closeStatementAndConnection();
         return sets;
     }
     /**

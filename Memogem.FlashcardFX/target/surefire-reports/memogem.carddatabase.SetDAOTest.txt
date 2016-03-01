@@ -1,4 +1,35 @@
 -------------------------------------------------------------------------------
 Test set: memogem.carddatabase.SetDAOTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.78 sec - in memogem.carddatabase.SetDAOTest
+Tests run: 8, Failures: 5, Errors: 0, Skipped: 0, Time elapsed: 7.308 sec <<< FAILURE! - in memogem.carddatabase.SetDAOTest
+testGetAllFuntionsProperlyWithThreeSets(memogem.carddatabase.SetDAOTest)  Time elapsed: 1.594 sec  <<< FAILURE!
+java.lang.AssertionError: Set SQL-query failed: [SQLITE_ERROR] SQL error or missing database (near "Set": syntax error)
+	at org.junit.Assert.fail(Assert.java:93)
+	at org.junit.Assert.assertTrue(Assert.java:43)
+	at memogem.carddatabase.SetDAOTest.testGetAllFuntionsProperlyWithThreeSets(SetDAOTest.java:251)
+
+testAddWithThreeSetsFunctionsProperly(memogem.carddatabase.SetDAOTest)  Time elapsed: 0.008 sec  <<< FAILURE!
+java.lang.AssertionError: Set SQL-query for adding failed: UNIQUE constraint failed: CardSet.Name
+	at org.junit.Assert.fail(Assert.java:93)
+	at org.junit.Assert.assertTrue(Assert.java:43)
+	at memogem.carddatabase.SetDAOTest.create3TestSetsByNameAndDate(SetDAOTest.java:296)
+	at memogem.carddatabase.SetDAOTest.testAddWithThreeSetsFunctionsProperly(SetDAOTest.java:187)
+
+addNewSetAndQuery(memogem.carddatabase.SetDAOTest)  Time elapsed: 0.001 sec  <<< FAILURE!
+org.junit.ComparisonFailure: expected:<[Automation]> but was:<[Randomizer2]>
+	at org.junit.Assert.assertEquals(Assert.java:125)
+	at org.junit.Assert.assertEquals(Assert.java:147)
+	at memogem.carddatabase.SetDAOTest.addNewSetAndQuery(SetDAOTest.java:110)
+
+seeIfearlierEntriesAreInTheDB(memogem.carddatabase.SetDAOTest)  Time elapsed: 0.003 sec  <<< FAILURE!
+org.junit.ComparisonFailure: expected:<[]> but was:<[AutomationBiologyChemistryTestSetRandomizer2]>
+	at org.junit.Assert.assertEquals(Assert.java:125)
+	at org.junit.Assert.assertEquals(Assert.java:147)
+	at memogem.carddatabase.SetDAOTest.seeIfearlierEntriesAreInTheDB(SetDAOTest.java:148)
+
+deleteEarlierTestSets(memogem.carddatabase.SetDAOTest)  Time elapsed: 0.169 sec  <<< FAILURE!
+org.junit.ComparisonFailure: expected:<[]> but was:<[AutomationBiologyChemistry]>
+	at org.junit.Assert.assertEquals(Assert.java:125)
+	at org.junit.Assert.assertEquals(Assert.java:147)
+	at memogem.carddatabase.SetDAOTest.deleteEarlierTestSets(SetDAOTest.java:170)
+

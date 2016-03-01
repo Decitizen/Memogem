@@ -177,6 +177,10 @@ public class Set {
         this.cards = cards;
     }
 
+    public void setLastTimeStudied(LocalDateTime lastTimeStudied) {
+        this.lastTimeStudied = lastTimeStudied;
+    }
+
     @Override
     public String toString() {
         String setInformation = "Set Name: " + this.getName();
