@@ -25,7 +25,7 @@
 
 01/03/2016 (6h) : Daoiden testaamista ja SQL-kyselyiden suoraviivaistamista. Bugien etsimistä ja poistamista. InitDB-testejä. Tällä hetkellä SQL-tietokantaan voi tallettaa kortteja kaikkine tietoineensa, sekä yksinäisiä settejä. Lisäksi SQL:n ON DELETE CASCADE käsky mahdollistaa kokonaisten settien ja korttien poiston kaikkine sidostietoinensa foreign avaimeen kytkettyjen poistoriippuvuuksien ansiosta.
 
-03/03/2016 (4h) : StudyWindow-luokan uudelleensuunnittelu edellisen bugisuuden vuoksi. JavaFX-ymmärryksen syventämistä. FXML-kokeiluja.
+03/03/2016 (4h) : StudyWindow-luokan uudelleensuunnittelu edellisen bugisuuden vuoksi. JavaFX-ymmärryksen syventämistä. Studywindown suunnittelu osittain helpompaa FXML:n avulla. 
 
 04/03/2016 (13h) : Tietokantayhteyden bugien ja JavaFX:n kanssa työstämistä, lisää opettelua ja viimeistelyä. Nyt mentiin kyllä hammasta purren, ja useammasta ratkaisuyrityksestä oli luovuttava. Käyttöliittymäkoodi laadultaan liian heikkoa palautukseen, purkamista ja refaktorointia. Samalla huomattua, ettei tietokannan toimivuus ole sittenkään tyhjillä ja pienillä seteillä vielä tarpeeksi hyvällä tasolla.
 
