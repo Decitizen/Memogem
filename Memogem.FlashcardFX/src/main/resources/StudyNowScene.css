@@ -1,0 +1,22 @@
+.background {
+    -fx-background-color: #1d1d1d;
+}
+
+.label {
+    -fx-font-size: 12pt;
+    -fx-font-family: "Roboto light";
+    -fx-text-fill: #414042;
+}
+
+#leftVBox {
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 25,0.3,2,0 );  
+  -fx-background-image: url("MemoGem-banner.jpg");
+  -fx-background-repeat: stretch;
+  -fx-background-size: 150 600;
+  -fx-background-position: center center;
+}
+
+.topStatsHBox {
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 25,0.3,2,2 ); 
+}
+

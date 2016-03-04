@@ -1,8 +1,28 @@
 -------------------------------------------------------------------------------
 Test set: memogem.carddatabase.DatabaseLoaderDAOTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 101.617 sec <<< FAILURE! - in memogem.carddatabase.DatabaseLoaderDAOTest
-compareImportedCardsWithLocalOnes(memogem.carddatabase.DatabaseLoaderDAOTest)  Time elapsed: 15.218 sec  <<< ERROR!
-java.lang.NullPointerException: null
-	at memogem.carddatabase.DatabaseLoaderDAOTest.compareImportedCardsWithLocalOnes(DatabaseLoaderDAOTest.java:146)
+Tests run: 5, Failures: 4, Errors: 0, Skipped: 0, Time elapsed: 26.152 sec <<< FAILURE! - in memogem.carddatabase.DatabaseLoaderDAOTest
+testDatabaseLoadingRightAmountOfSets(memogem.carddatabase.DatabaseLoaderDAOTest)  Time elapsed: 25.593 sec  <<< FAILURE!
+java.lang.AssertionError: ResultSet closed
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at memogem.carddatabase.DatabaseLoaderDAOTest.testDatabaseLoadingRightAmountOfSets(DatabaseLoaderDAOTest.java:91)
+
+testDatabaseLoadingWithTargetCard(memogem.carddatabase.DatabaseLoaderDAOTest)  Time elapsed: 0.007 sec  <<< FAILURE!
+java.lang.AssertionError: Databaseloader creation failed: ResultSet closed
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at memogem.carddatabase.DatabaseLoaderDAOTest.testDatabaseLoadingWithTargetCard(DatabaseLoaderDAOTest.java:124)
+
+testDatabaseLoadingRightAmountOfCards(memogem.carddatabase.DatabaseLoaderDAOTest)  Time elapsed: 0.006 sec  <<< FAILURE!
+java.lang.AssertionError: ResultSet closed
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at memogem.carddatabase.DatabaseLoaderDAOTest.testDatabaseLoadingRightAmountOfCards(DatabaseLoaderDAOTest.java:109)
+
+compareImportedCardsWithLocalOnes(memogem.carddatabase.DatabaseLoaderDAOTest)  Time elapsed: 0.004 sec  <<< FAILURE!
+java.lang.AssertionError: Databaseloader creation failed: ResultSet closed
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at memogem.carddatabase.DatabaseLoaderDAOTest.compareImportedCardsWithLocalOnes(DatabaseLoaderDAOTest.java:152)
 

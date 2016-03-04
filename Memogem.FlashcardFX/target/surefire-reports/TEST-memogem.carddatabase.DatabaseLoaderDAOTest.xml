@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="memogem.carddatabase.DatabaseLoaderDAOTest" time="101.566" tests="5" errors="1" skipped="0" failures="0">
+<testsuite name="memogem.carddatabase.DatabaseLoaderDAOTest" time="26.101" tests="5" errors="0" skipped="0" failures="4">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_40\jre\bin"/>
@@ -63,15 +63,137 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase name="testDatabaseLoadingRightAmountOfSets" classname="memogem.carddatabase.DatabaseLoaderDAOTest" time="33.931"/>
-  <testcase name="testDatabaseLoadingWithTargetCard" classname="memogem.carddatabase.DatabaseLoaderDAOTest" time="20.668"/>
-  <testcase name="testDatabaseLoadingRightAmountOfCards" classname="memogem.carddatabase.DatabaseLoaderDAOTest" time="17.997"/>
-  <testcase name="compareImportedCardsWithLocalOnes" classname="memogem.carddatabase.DatabaseLoaderDAOTest" time="15.218">
-    <error type="java.lang.NullPointerException:">java.lang.NullPointerException: null
-	at memogem.carddatabase.DatabaseLoaderDAOTest.compareImportedCardsWithLocalOnes(DatabaseLoaderDAOTest.java:146)
-</error>
+  <testcase name="testDatabaseLoadingRightAmountOfSets" classname="memogem.carddatabase.DatabaseLoaderDAOTest" time="25.593">
+    <failure message="ResultSet closed" type="java.lang.AssertionError">java.lang.AssertionError: ResultSet closed
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at memogem.carddatabase.DatabaseLoaderDAOTest.testDatabaseLoadingRightAmountOfSets(DatabaseLoaderDAOTest.java:91)
+</failure>
     <system-out><![CDATA[Couldn't close statement.
 ]]></system-out>
   </testcase>
-  <testcase name="testDatabaseLoaderCreation" classname="memogem.carddatabase.DatabaseLoaderDAOTest" time="13.752"/>
+  <testcase name="testDatabaseLoadingWithTargetCard" classname="memogem.carddatabase.DatabaseLoaderDAOTest" time="0.007">
+    <failure message="Databaseloader creation failed: ResultSet closed" type="java.lang.AssertionError">java.lang.AssertionError: Databaseloader creation failed: ResultSet closed
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at memogem.carddatabase.DatabaseLoaderDAOTest.testDatabaseLoadingWithTargetCard(DatabaseLoaderDAOTest.java:124)
+</failure>
+    <system-err><![CDATA[java.sql.SQLException: table CardSet already exists
+	at org.sqlite.core.NativeDB.throwex(NativeDB.java:397)
+	at org.sqlite.core.NativeDB._exec(Native Method)
+	at org.sqlite.jdbc3.JDBC3Statement.executeUpdate(JDBC3Statement.java:116)
+	at memogem.carddatabase.InitDb.createTables(InitDb.java:69)
+	at memogem.carddatabase.InitDb.<init>(InitDb.java:19)
+	at memogem.carddatabase.DatabaseLoaderDAOTest.setUp(DatabaseLoaderDAOTest.java:51)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:24)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:264)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:124)
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:200)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:153)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103)
+]]></system-err>
+  </testcase>
+  <testcase name="testDatabaseLoadingRightAmountOfCards" classname="memogem.carddatabase.DatabaseLoaderDAOTest" time="0.006">
+    <failure message="ResultSet closed" type="java.lang.AssertionError">java.lang.AssertionError: ResultSet closed
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at memogem.carddatabase.DatabaseLoaderDAOTest.testDatabaseLoadingRightAmountOfCards(DatabaseLoaderDAOTest.java:109)
+</failure>
+    <system-err><![CDATA[java.sql.SQLException: table CardSet already exists
+	at org.sqlite.core.NativeDB.throwex(NativeDB.java:397)
+	at org.sqlite.core.NativeDB._exec(Native Method)
+	at org.sqlite.jdbc3.JDBC3Statement.executeUpdate(JDBC3Statement.java:116)
+	at memogem.carddatabase.InitDb.createTables(InitDb.java:69)
+	at memogem.carddatabase.InitDb.<init>(InitDb.java:19)
+	at memogem.carddatabase.DatabaseLoaderDAOTest.setUp(DatabaseLoaderDAOTest.java:51)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:24)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:264)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:124)
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:200)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:153)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103)
+]]></system-err>
+  </testcase>
+  <testcase name="compareImportedCardsWithLocalOnes" classname="memogem.carddatabase.DatabaseLoaderDAOTest" time="0.004">
+    <failure message="Databaseloader creation failed: ResultSet closed" type="java.lang.AssertionError">java.lang.AssertionError: Databaseloader creation failed: ResultSet closed
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at memogem.carddatabase.DatabaseLoaderDAOTest.compareImportedCardsWithLocalOnes(DatabaseLoaderDAOTest.java:152)
+</failure>
+    <system-err><![CDATA[java.sql.SQLException: table CardSet already exists
+	at org.sqlite.core.NativeDB.throwex(NativeDB.java:397)
+	at org.sqlite.core.NativeDB._exec(Native Method)
+	at org.sqlite.jdbc3.JDBC3Statement.executeUpdate(JDBC3Statement.java:116)
+	at memogem.carddatabase.InitDb.createTables(InitDb.java:69)
+	at memogem.carddatabase.InitDb.<init>(InitDb.java:19)
+	at memogem.carddatabase.DatabaseLoaderDAOTest.setUp(DatabaseLoaderDAOTest.java:51)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:24)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:264)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:124)
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:200)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:153)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103)
+]]></system-err>
+  </testcase>
+  <testcase name="testDatabaseLoaderCreation" classname="memogem.carddatabase.DatabaseLoaderDAOTest" time="0.491"/>
 </testsuite>

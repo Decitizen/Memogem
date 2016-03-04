@@ -21,10 +21,10 @@ public class MainApp extends Application  {
     @Override
     public void start(Stage stage) throws Exception {
         //Create new database
-        database = new Database(true, "test.db");
+        database = new Database("test.db");
         
         //Create dummysets for testing
-        createDummySets();
+//        createDummySets();
         
         this.mainStage = stage;
         MainWindow mWindowObject = new MainWindow(mainStage, database, cEngine);

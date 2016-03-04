@@ -39,6 +39,7 @@ public class Database {
         this.sets = new ArrayList<>();
         this.cardDatabase = new ArrayList<>();
         this.tagDatabase = new HashMap<>();
+        this.dbAddress = dbAddress;
         
         if (!connectDatabase(dbAddress)) {
             if (deBugMode) System.out.println("/n Initializing new database...");
@@ -57,7 +58,7 @@ public class Database {
         try {
             if (deBugMode) System.out.println("Connecting to database...");
             
-            Connection dbConnection = DriverManager.getConnection("jdbc:sqlite:database.db");
+            Connection dbConnection = DriverManager.getConnection("jdbc:sqlite:" + dbAddress + "");
             Statement statement = dbConnection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM CardSet;");
             closeConnection(dbConnection, statement);
@@ -157,7 +158,6 @@ public class Database {
         return false;
     }
     
-    
     /**
      * Method takes a parameter of class Tag and searches the database for that exact object.
      * Returns true if the database contains the particular Tag.
@@ -219,6 +219,26 @@ public class Database {
     }
     
     /**
+     * Deletes the given card from the database. Returns false if the card is not in the database.
+     * 
+     * @param card Card-type object that will be deleted from the database.
+     * @return boolean type object returned.
+     */
+    public boolean deleteSet(Set set) {
+        if (containsSet(set)) {
+            try {
+                SetDAO setDao = new SetDAO(dbAddress);
+                setDao.delete(set);
+                return sets.remove(set);
+                
+            } catch (SQLException se) {
+                System.out.println(se.getMessage());
+            }
+        }
+        return false;
+    }
+    
+    /**
      * Prints out all the cards in a text-format.
      */
     public void printAllCards() {
@@ -257,6 +277,6 @@ public class Database {
      * new database.
      */
     private void initializeEmptyDatabase() {
-//        InitDb initDb = new InitDb(dbAddress);
+        InitDb initDb = new InitDb(dbAddress);
     }
 }

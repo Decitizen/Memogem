@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="Anchorpane" prefHeight="600" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" >
+    <children>
+        <VBox 
+            alignment="TOP_LEFT" 
+            minHeight="600" fx:id="leftVBox" 
+            style="-fx-background-color: #FCED7C;" 
+            minWidth="150" 
+        />
+        <HBox 
+            alignment="TOP_RIGHT" 
+            maxWidth="450" 
+            minWidth="450" 
+            style="-fx-background-color: #75756F;" 
+            minHeight="55" 
+            layoutX="150"
+            fx:id="topStatsHBox" 
+            />
+        <ProgressIndicator 
+            layoutX="25" 
+            layoutY="150" 
+            minWidth="100" 
+            progress="0.45"
+            scaleY="1.5"   
+            scaleX="1.5"   
+            fx:id="progressIndicator"
+        />
+        <Label 
+            lineSpacing="1" 
+            maxWidth="405" 
+            wrapText="true"  
+            layoutX="180" 
+            layoutY="30"  
+            text="Front of the card with everything that's wrong with the world." 
+            minHeight="150" 
+            minWidth="200" 
+            fx:id="labelFront" 
+        />   
+         
+        <Button layoutX="335" layoutY="550" text="Show Answer" fx:id="buttonShowAnswer" />
+        <Button layoutX="30" layoutY="550" text="End Study"  fx:id="buttonEnd" />
+    </children>
+</AnchorPane>

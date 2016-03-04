@@ -1,9 +1,12 @@
 
 package memogem.ui;
-
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -11,10 +14,14 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.StackedAreaChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import static javafx.scene.layout.GridPane.REMAINING;
@@ -41,6 +48,11 @@ public class MainWindow {
     private CardEngine cEngine; // CardEngine that handles all the card's operations
     private Set currentSet; // Holds the current set under study
     
+    private ChoiceBox<String> setNames;
+    private Button addSet;
+    private Button addCard;
+    private Button studyNow;
+    
     final NumberAxis xAxis = new NumberAxis(1, 31, 1);
     final NumberAxis yAxis = new NumberAxis();
  
@@ -56,6 +68,7 @@ public class MainWindow {
      */
     public void createMWindow() {
         //Give title
+        
         mainWindow.setTitle("MemoGem - Control Panel");
         
         //Set action on close
@@ -92,38 +105,25 @@ public class MainWindow {
         Label chooseSetLabel = new Label("Choose topic:");
         
         //Create choicebox
-        ChoiceBox<String> setNames = new ChoiceBox<>();
-        
-        //Fetch set-names:
-        List<Set> sets = database.getSets();
-        
-        for (Set set : sets) {
-            setNames.getItems().add(set.getName());
+        setNames = new ChoiceBox<>();
+        if (!database.getSets().isEmpty()) {
+            currentSet = database.getSets().get(0);
         }
-        currentSet = sets.get(0);
-        setNames.setValue(currentSet.getName());
+        //Fetch set-names:
         
-        
-        // Create texts and hboxes
-        List<HBox> hboxes = setSetStatsText();
-        HBox statisticsBox1 = hboxes.get(0);
-        HBox statisticsBox2 = hboxes.get(1);
-        HBox statisticsBox3 = hboxes.get(2);
-        
-        setNames.setValue(currentSet.getName());
+        if (currentSet != null) {
+            setNames.setValue(currentSet.getName());
+        } else {
+            currentSet = new Set("<No sets>");
+        }
+        updateChoiceBox();
         setNames.setMinWidth(100);
         setNames.setMaxWidth(300);
         
         //Create buttons
-        Button addSet = new Button("Add Set");
-        Button addCard = new Button("Add Card");
-        Button studyNow = new Button("Study Set");
-        
-        //Add actions to buttons
-        addCard.setOnAction(e -> {
-            EditCardWindow editWindow = new EditCardWindow(database,cEngine, currentSet);
-            editWindow.createMWindow();
-        });
+        addSet = new Button("Add Set");
+        addCard = new Button("Add Card");
+        studyNow = new Button("Study Set");
         
         //Create MenuBar
         MainMenubar mainMenuBar = new MainMenubar(database, cEngine, mainWindow);
@@ -131,6 +131,17 @@ public class MainWindow {
         
         //Create piechart
         PieChart pieChart = pieChart();
+        
+        //Add actions to buttons
+        addCard.setOnAction(e -> {
+            EditCardWindow editWindow = new EditCardWindow(database, cEngine, currentSet);
+            editWindow.createMWindow();
+            updateChoiceBox();
+            setNames.setValue(currentSet.getName());
+        });
+        
+        //"Add Set"- action
+        addSet.setOnAction(e -> createAddSetWindow(pieChart, setNames));
         
         //Create Hbox for buttons
         HBox hbox = new HBox(20);
@@ -151,21 +162,8 @@ public class MainWindow {
         GridPane.setConstraints(setNames, 0, 2);
         GridPane.setConstraints(menuBar, 0, 0);
         
-        GridPane.setColumnSpan(statisticsBox1, REMAINING);
-        GridPane.setColumnSpan(statisticsBox2, REMAINING);
-        GridPane.setColumnSpan(statisticsBox3, REMAINING);
-
-        GridPane.setConstraints(statisticsBox1, 0, 3);
-        GridPane.setConstraints(statisticsBox2, 0, 4);
-        GridPane.setConstraints(statisticsBox3, 0, 5);
-
-        GridPane.setMargin(statisticsBox1, new Insets(0, 0, 0, 25));
-        GridPane.setMargin(statisticsBox2, new Insets(0, 0, 0, 25));
-        GridPane.setMargin(statisticsBox3, new Insets(0, 0, 0, 25));
-        
         //Populate gridPane
-        gridPane.getChildren().addAll(menuBar, setNames, statisticsBox1, 
-                        statisticsBox2, statisticsBox3, chooseSetLabel);
+        gridPane.getChildren().addAll(menuBar, setNames, chooseSetLabel);
         
         //Create area chart for statistics
         StackedAreaChart<Number, Number> studyChart = areaChart();
@@ -173,93 +171,49 @@ public class MainWindow {
         //Listen for selection changes
         setNames.getSelectionModel().selectedItemProperty().addListener
         ((v, oldValue, newValue) -> {
-
-            setSelectedSet(newValue, sets);
+            mainWindow.setScene(new Scene(new BorderPane(), 980, 760));
+            mainWindow.show();
+            setSelectedSet(newValue, database.getSets());
             StackedAreaChart<Number, Number> aC = areaChart();
-            List<HBox> hboxes1 = setSetStatsText();
-            
-            HBox statisticsBox11 = hboxes1.get(0);
-            HBox statisticsBox22 = hboxes1.get(1);
-            HBox statisticsBox33 = hboxes1.get(2);
-            
-            gridPane.getChildren().add(2, statisticsBox11);
-            gridPane.getChildren().add(3, statisticsBox22);
-            gridPane.getChildren().add(4, statisticsBox33);
-            
-            GridPane.setColumnSpan(statisticsBox11, REMAINING);
-            GridPane.setColumnSpan(statisticsBox22, REMAINING);
-            GridPane.setColumnSpan(statisticsBox33, REMAINING);
-            
-            GridPane.setConstraints(statisticsBox11, 0, 3);
-            GridPane.setConstraints(statisticsBox22, 0, 4);
-            GridPane.setConstraints(statisticsBox33, 0, 5);
-            
-            GridPane.setMargin(statisticsBox11, new Insets(0, 0, 0, 25));
-            GridPane.setMargin(statisticsBox22, new Insets(0, 0, 0, 25));
-            GridPane.setMargin(statisticsBox33, new Insets(0, 0, 0, 25));
-            
             borderPane = new BorderPane(pieChart, gridPane, areaChart(), hbox, null);
             mainWindow.setScene(new Scene(borderPane, 980, 760));
             mainWindow.show();
         });
         
+        
+        
         //Study now! action
         studyNow.setOnAction(e -> {
-            StudyWindow studyWindow = new StudyWindow(database, mainWindow, cEngine, currentSet, cEngine.getStudymode());
-            studyWindow.createSWindow();
-        });
+            String alertText = null;
+            if (!(currentSet != null || currentSet.getCards().isEmpty())) {
+                StudyNow studyWindowNew = new StudyNow(database, cEngine, currentSet);
+                try {
+                    studyWindowNew.createStudyWindow();
+                    return;
+                } catch (Exception ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (currentSet == null) {
+                alertText = "Select proper set first";
+            } else {
+                alertText = "Set is empty. Add cards.";
+            }
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("Nothing to study here.");
+            alert.setContentText(alertText);
+            alert.showAndWait();
+            });
+        
+        final Tooltip tooltipStudyNow = new Tooltip();
+        tooltipStudyNow.setText("Begin studying the selected set.");
+        studyNow.setTooltip(tooltipStudyNow);
         
         //Create parent layout, borderpane
         borderPane = new BorderPane(pieChart, gridPane, studyChart, hbox, null);
         BorderPane.setMargin(hbox, new Insets(15));
-        
     }
-    /**
-     * Creates/Updates statistics
-     * @return List of HBoxes
-     */
-    public List<HBox> setSetStatsText() {
-        //Create set statistics
-        Label setStatsCardAmounLabel = new Label("Cards:");
-        Label setDifficultyLabel = new Label("Difficulty:");
-        Label setStatsLastTimeStudiedLabel = new Label("Date Last Studied:");
-        
-        Text setStatsCardAmountText = new Text("" + currentSet.getCards().size());
-        Text setDifficultyText = new Text("" + currentSet.getAVGDifficultyAsString());
-        
-        setStatsCardAmountText.setFill(Color.LIGHTGREEN);
-        setDifficultyText.setFill(Color.LIGHTGREEN);
-        setDifficultyText.setFont(Font.font("Verdana", FontWeight.BLACK, FontPosture.REGULAR, 12));
-        setStatsCardAmountText.setFont(Font.font("Verdana", FontWeight.BLACK, FontPosture.REGULAR, 12));
-        Text setStatsLastTimeStudiedText = new Text("Not Studied Yet");
-        
-        if (currentSet.getLastTimeStudied() != null) {
-            setStatsLastTimeStudiedText = new Text(""
-                    + currentSet.getLastTimeStudied().getDayOfMonth() + "."
-                    + currentSet.getLastTimeStudied().getMonthValue() + "."
-                    + currentSet.getLastTimeStudied().getYear());
-            setStatsLastTimeStudiedText.setFill(Color.LIGHTGREEN);
-            setStatsLastTimeStudiedText.setFont(Font.font("Verdana", FontWeight.BLACK, FontPosture.REGULAR, 12));
-        }
-        
-        //Create 3 Hboxes for statistics
-        List<HBox> hboxes = new LinkedList<>();
-        HBox statisticsBox1 = new HBox(setStatsCardAmounLabel, 
-                                            setStatsCardAmountText);
-        
-        
-        HBox statisticsBox2 = new HBox(setStatsLastTimeStudiedLabel, 
-                                        setStatsLastTimeStudiedText);
-        
-        
-        HBox statisticsBox3 = new HBox(setDifficultyLabel, setDifficultyText);
-        
-        hboxes.add(statisticsBox1);
-        hboxes.add(statisticsBox2);
-        hboxes.add(statisticsBox3);
-        
-        return hboxes;
-    }
+    
 
     /**
      * Populates piechart with the AVG difficulties of the sets.
@@ -271,8 +225,8 @@ public class MainWindow {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
         for (Set set : database.getSets()) {
             if (!set.getCards().isEmpty()) {
-                pieChartData.add(new PieChart.Data(set.getName(), 
-                            set.calculateOverallTimeStudied()));
+                pieChartData.add(new PieChart.Data(set.getName(),
+                        set.calculateOverallTimeStudied()));
             }
         }
         final PieChart pieChart = new PieChart(pieChartData);
@@ -295,7 +249,6 @@ public class MainWindow {
                 currentSet = set;
             }
         }
-       
     }
     /**
      * Creates Java FX areaChart from set's study-speed data.
@@ -335,7 +288,48 @@ public class MainWindow {
         return studyAreaChart;
     }
     
-    
+    private void createAddSetWindow(PieChart pieChart,
+                                    ChoiceBox<String> setNames) {
+        
+        TextInputDialog addSetWindow = new TextInputDialog("Name here");
+        addSetWindow.setTitle("Name Input Dialog");
+        addSetWindow.setHeaderText("Give new Name");
+        
+        
+        Optional<String> result = addSetWindow.showAndWait();
+        result.ifPresent(name -> {
+            if (!saveSetAndSetCurrent(name)) {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText(null);
+                alert.setContentText("Something went wrong. Couldn't add new Set.");
 
+                alert.showAndWait();
+            }
+            updateChoiceBox();
+            setNames.setValue(name);
+        });
+    }
+    
+    private boolean saveSetAndSetCurrent(String text) {
+        Set newSet = new Set(text);
+        if (!database.containsSet(newSet)) {
+            currentSet = newSet;
+            return database.addNewSet(newSet);
+        } else {
+            return false;
+        }
+    }
+
+    private void updateChoiceBox() {
+        List<Set> sets = database.getSets();
+        setNames = new ChoiceBox<>();
+        for (Set set : sets) {
+            setNames.getItems().add(set.getName());
+        }
+        if (currentSet != null) {
+            setNames.setValue(currentSet.getName());
+        }
+    }
 
 }

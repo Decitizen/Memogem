@@ -4,12 +4,14 @@ package memogem.ui;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
@@ -67,7 +69,6 @@ public class EditCardWindow {
         //Set scene
         editWindow.setScene(scene);
         editWindow.showAndWait();
-        
     }
     
     /**
@@ -196,6 +197,5 @@ public class EditCardWindow {
         }
         return singleTags;
     }
-    
     
 }

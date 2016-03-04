@@ -192,17 +192,13 @@ public class Set {
             
         }
         return setInformation;
-        
     }
     
     @Override
     public boolean equals(Object o) {
         if (o == null) return false;
-        
         if (o.getClass() != this.name.getClass()) return false;
-        
         Set set1 = (Set) o;
-        
         return set1.getId().equals(this.getId());
     }
     

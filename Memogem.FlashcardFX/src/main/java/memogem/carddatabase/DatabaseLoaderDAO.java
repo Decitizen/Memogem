@@ -77,9 +77,7 @@ public class DatabaseLoaderDAO implements Dao<Set> {
      * This method takes care of loading the necessary information into the
      * local Database during program's startup. The whole operation will take
      * only 1 main SQL-query. But because of the structure tags need to be added
-     * to the cards by individual SQL-queries (1per Card-object). Method is huge
-     * due to it being very difficult to break down into smaller steps in any
-     * rational means.
+     * to the cards by individual SQL-queries (1per Card-object).
      * @return List of Set-objects.
      * @throws SQLException 
      */
@@ -200,7 +198,7 @@ public class DatabaseLoaderDAO implements Dao<Set> {
                 cardDatabase.add(card);
                 set.addCard(card);
             }
-        }
+        } 
         closeConnection(statement);
         return sets;
     }
